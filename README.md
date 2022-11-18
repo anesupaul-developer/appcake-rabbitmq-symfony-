@@ -13,9 +13,9 @@ Written by Anesu Paul Ngirande
 Before running the following commands make sure ac_container_mysql is up and running and test mysql connection and manage to run the command CREATE DATABASE appcake
 
 In your terminal run 
-	- docker compose exec php bin/console doctrine:migrations:migrate # To create tables news and users
-	- docker compose exec php bin/console seed:users # Check file app/src/Commands/SeedUsersCommand
-	- Optionally to start seeing data you can run (docker compose exec php bin/console seed:news)  # Check file app/src/Commands/SeedNewsCommand
+docker compose exec php bin/console doctrine:migrations:migrate # To create tables news and users
+docker compose exec php bin/console seed:users # Check file app/src/Commands/SeedUsersCommand
+Optionally to start seeing data you can run (docker compose exec php bin/console seed:news)  # Check file app/src/Commands/SeedNewsCommand
 	
-- now in your browser visit you http;//localhost:8080. (you can check your nginx point inside docker desktop on your nginx-container)
+- now in your browser visit you http://localhost:8080. (you can check your nginx point inside docker desktop on your nginx-container)
 - Login with details obtained form the SeedNewsCommand

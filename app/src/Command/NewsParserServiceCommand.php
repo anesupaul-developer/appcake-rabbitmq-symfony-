@@ -2,61 +2,68 @@
 
 namespace App\Command;
 
+use Doctrine\DBAL\Result;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class NewsParserServiceCommand extends Command
 {
     protected static $defaultName = 'api:news';
 
+    private ?string $apiKey;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        parent::__construct();
+
+        $this->apiKey = $kernel->getContainer()->getParameter('news_api_key');
+    }
+
     protected function configure(): void
     {
         $this->setDescription('News Parsing Service')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addOption('date', null, InputOption::VALUE_OPTIONAL, 'date');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $date = $input->getOption('date');
 
-        $this->getArticles();
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        if (empty($date) === false) {
+            $io->note(sprintf('You passed a date option: %s', $date));
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
+        $date = empty($date) === false ? date_create($date)->format('Y-m-d') : date('Y-m-d');
+
+        $this->getArticles($date);
 
         $io->success('Completed');
 
         return Command::SUCCESS;
     }
 
-    private function getArticles(): void
+    private function getArticles(string $date): void
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw",
+            CURLOPT_URL => "https://newsapi.org/v2/everything?q=tesla&from=".$date."&sortBy=publishedAt&apiKey=".$this->apiKey,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
+            CURLOPT_ENCODING => "utf-8",
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => [
-                "X-BingApis-SDK: true",
-                "X-RapidAPI-Host: bing-news-search1.p.rapidapi.com",
-                "X-RapidAPI-Key: 47da856005mshf3fae3b93f96d6ap135f10jsna44ae360f523"
+                "User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)
+                 Chrome/91.0.4472.114 Safari/537.36"
             ],
         ]);
 
