@@ -1,0 +1,100 @@
+@font-face {
+    font-family: Poppins;
+    src: url("../fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: PoppinsBold;
+    src: url("../fonts/Poppins-Bold.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    font-family: Poppins, sans-serif, Verdana, Tahoma !important;
+    color: #112233 !important;
+    font-size: 1.1rem;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.page-header-intro-text {
+    font-size: 14px !important;
+}
+
+.header-bold {
+    font-family: PoppinsBold, sans-serif, Verdana, Tahoma !important;
+    font-size: 32px !important;
+}
+
+header img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.ml-30 {
+    margin-left: 30px !important;
+}
+
+.company-name {
+    font-family: Bahnschrift, sans-serif !important;
+    font-size: 18px;
+}
+
+nav a {
+    font-family: Bahnschrift, sans-serif;
+}
+
+.text-darker {
+    color: #112233 !important;
+}
+
+.article-date {
+    font-family: Bahnschrift, sans-serif !important;
+    font-size: 13px !important;
+    color: #112233 !important;
+}
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+    background-color: #F6F6F6;
+    border-radius: 50%;
+}
+
+.custom-button {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: Bahnschrift, sans-serif, Verdana, Tahoma !important;
+    color: #110000 !important;
+}
+
+.username-area {
+    font-size: 13px !important;
+}
+
+.text-awesome {
+    font-family: Bahnschrift, sans-serif, Verdana, Tahoma !important;
+}
+
+.navigation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.shrink-container {
+    max-width: 80% !important;
+    margin: auto;
+}

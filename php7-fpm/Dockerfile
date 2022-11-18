@@ -1,5 +1,6 @@
 FROM php:7.4-fpm
 ARG TIMEZONE
+ARG SYMFONY_APP_FOLDER_NAME
 
 RUN apt-get update && apt-get install -y git unzip openssl procps acl zlib1g-dev
 
@@ -37,4 +38,4 @@ RUN echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-x
 # Create an alias for Symfony3 console
 RUN echo 'alias symfony="php bin/console"' >> ~/.bashrc
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www/symfony/${SYMFONY_APP_FOLDER_NAME}/

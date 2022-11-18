@@ -16,3 +16,5 @@ In your terminal run
 	- docker compose exec php bin/console doctrine:migrations:migrate
 	- docker compose exec php bin/console seed:users
 	- Optionally to start seeing data you can run (docker compose exec php bin/console seed:news)
+	
+- now in your browser visit you http;//localhost:8080. (you can check your nginx point inside docker desktop on your nginx-container)

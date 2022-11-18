@@ -1,0 +1,24 @@
+app_login:
+  path: /
+  controller: App\Controller\SecurityController::login
+
+login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+app_logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
+
+news_index:
+  path: /news
+  controller: App\Controller\NewsController::index
+
+news_show:
+  path: /news/{slug}
+  controller: App\Controller\NewsController::show
+
+news_delete:
+  path: /news/d/{uuid}
+  controller: App\Controller\NewsController::destroy
+
