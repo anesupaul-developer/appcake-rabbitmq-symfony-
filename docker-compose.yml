@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  php:
+    container_name: ac_php_container
+    build:
+      context: php7-fpm
+      args:
+        TIMEZONE: ${TIMEZONE}
+    volumes:
+      - ${SYMFONY_APP_PATH}:/var/www/symfony
+      - ${SYMFONY_APP_PATH}/logs/symfony:/var/www/symfony/var/log
+  nginx:
+    container_name: ac_nginx_container
+    build:
+      context: nginx
+      args:
+        MAX_EXECUTION_TIME: ${MAX_EXECUTION_TIME}
+        SERVER_NAME: ${SERVER_NAME}
+    ports:
+      - "8080:8080"
+    volumes_from:
+      - php
+    volumes:
+      - ${SYMFONY_APP_PATH}/logs/nginx/:/var/log/nginx
+  mysql:
+    container_name: ac_mysql_container
+    image: mysql
+    volumes:
+      - ${SYMFONY_APP_PATH}/.data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8083:3306"
+  rabbit:
+    container_name: ac_rabbit_container
+    hostname: rabbit
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - ${SYMFONY_APP_PATH}/.data/rabbitmq/:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

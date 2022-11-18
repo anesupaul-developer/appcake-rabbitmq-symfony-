@@ -1,4 +1,4 @@
-# NEWS PASRER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
+# NEWS PARSER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
 
 Written by Anesu Paul Ngirande
 
@@ -10,7 +10,7 @@ Written by Anesu Paul Ngirande
 In your terminal run docker compose up -d --build
 
 ## STEP 2: RUN YOUR MIGRATIONS AND SEEDERS
----- Before running the following commands make sure ac_container_mysql is up and running and test mysql connection and manage to run the command CREATE DATASE appcake
+Before running the following commands make sure ac_container_mysql is up and running and test mysql connection and manage to run the command CREATE DATASE appcake
 
 In your terminal run 
 	- docker compose exec php bin/console doctrine:migrations:migrate
