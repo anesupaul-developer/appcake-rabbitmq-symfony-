@@ -1,27 +1,18 @@
-# NgAdminx
+# NEWS PASRER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
+Written by Anesu Paul Ngirande
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
 
-## Code scaffolding
+##STEP 1: Setup DOCKER
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+In your terminal run docker compose up -d --build
 
-## Build
+## STEP 2: RUN YOUR MIGRATIONS AND SEEDERS
+---- Before running the following commands make sure ac_container_mysql is up and running and test mysql connection and manage to run the command CREATE DATASE appcake
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+In your terminal run 
+	- docker compose exec php bin/console doctrine:migrations:migrate
+	- docker compose exec php bin/console seed:users
+	- Optionally to start seeing data you can run (docker compose exec php bin/console seed:news)
