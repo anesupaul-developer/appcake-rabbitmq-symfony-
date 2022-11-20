@@ -2,26 +2,31 @@
 
 namespace App\Command;
 
-use Doctrine\DBAL\Result;
+use App\Definitions\NewsArticle;
+use App\Messages\SendNewsArticleInfo;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class NewsParserServiceCommand extends Command
 {
-    protected static $defaultName = 'api:news';
+    protected static $defaultName = 'app:news';
 
     private ?string $apiKey;
 
-    public function __construct(KernelInterface $kernel)
+    private MessageBusInterface $messageBus;
+
+    public function __construct(MessageBusInterface $messageBus, KernelInterface $kernel)
     {
         parent::__construct();
 
         $this->apiKey = $kernel->getContainer()->getParameter('news_api_key');
+
+        $this->messageBus = $messageBus;
     }
 
     protected function configure(): void
@@ -41,19 +46,35 @@ class NewsParserServiceCommand extends Command
 
         $date = empty($date) === false ? date_create($date)->format('Y-m-d') : date('Y-m-d');
 
-        $this->getArticles($date);
+        $items = json_decode($this->getArticles($date));
+        foreach($items->articles as $article) {
+            $definition = new NewsArticle($article->title, $article->description, $article->urlToImage, $article->publishedAt);
+
+            $this->sendToQueue($definition);
+        }
 
         $io->success('Completed');
 
         return Command::SUCCESS;
     }
 
-    private function getArticles(string $date): void
+    private function getTestArticles()
     {
-        $curl = curl_init();
+        return file_get_contents("./tests/_data/news-articles.json");
+    }
 
+    private function sendToQueue(NewsArticle $message)
+    {
+        $this->messageBus->dispatch(new SendNewsArticleInfo($message));
+    }
+
+    private function getArticles(string $date, string $search = 'a'): string
+    {
+        return $this->getTestArticles();
+
+        $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://newsapi.org/v2/everything?q=tesla&from=".$date."&sortBy=publishedAt&apiKey=".$this->apiKey,
+            CURLOPT_URL => "https://newsapi.org/v2/everything?q=".$search."&from=".$date."&sortBy=publishedAt&apiKey=".$this->apiKey,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_ENCODING => "utf-8",
@@ -73,9 +94,11 @@ class NewsParserServiceCommand extends Command
         curl_close($curl);
 
         if ($err) {
-            echo "cURL Error #:" . $err;
+            throw new $err;
         } else {
-            error_log($response, 3, 'news.json');
+
+            error_log($response, 3, "news_".date_create()->getTimestamp().".txt");
+            return $response;
         }
     }
 }

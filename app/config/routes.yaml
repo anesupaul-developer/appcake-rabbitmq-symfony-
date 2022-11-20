@@ -22,3 +22,7 @@ news_delete:
   path: /news/d/{uuid}
   controller: App\Controller\NewsController::destroy
 
+send_article:
+  path: /send/article
+  controller: App\Controller\SendArticleController::sendArticle
+
