@@ -1,11 +1,8 @@
 # NEWS PARSER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
 
- **Written by Anesu Paul Ngirande
- 
- <img src="./login-screen.png" alt="login" width="200"/>
+ **Written by Anesu Paul Ngirande**
 
-
-# REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
+REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
 
 ## STEP 1: Setup DOCKER
 In your terminal run 
