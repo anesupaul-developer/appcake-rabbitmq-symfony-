@@ -47,10 +47,16 @@ class NewsParserServiceCommand extends Command
         $date = empty($date) === false ? date_create($date)->format('Y-m-d') : date('Y-m-d');
 
         $items = json_decode($this->getArticles($date));
-        foreach($items->articles as $article) {
-            $definition = new NewsArticle($article->title, $article->description, $article->urlToImage, $article->publishedAt);
+        if (empty($items->status) === false && strtolower($items->status) === 'error') {
+            throw new \Exception($items->message);
+        }
 
-            $this->sendToQueue($definition);
+        foreach($items->articles as $article) {
+           if (empty($article->title) === false) {
+               $definition = new NewsArticle($article->title, $article->description, $article->urlToImage, $article->publishedAt);
+
+               $this->sendToQueue($definition);
+           }
         }
 
         $io->success('Completed');
@@ -65,12 +71,14 @@ class NewsParserServiceCommand extends Command
 
     private function sendToQueue(NewsArticle $message)
     {
+        echo $message->getTitle().PHP_EOL;
         $this->messageBus->dispatch(new SendNewsArticleInfo($message));
     }
 
     private function getArticles(string $date, string $search = 'a'): string
     {
-        return $this->getTestArticles();
+        // You can test with the dummy data;
+        // return $this->getTestArticles();
 
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -97,7 +105,7 @@ class NewsParserServiceCommand extends Command
             throw new $err;
         } else {
 
-            error_log($response, 3, "news_".date_create()->getTimestamp().".txt");
+            error_log($response, 3, "./logs/articles/news_".date_create()->getTimestamp().".txt");
             return $response;
         }
     }

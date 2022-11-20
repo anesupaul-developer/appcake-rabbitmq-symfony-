@@ -32,7 +32,7 @@
             width: 300px;
             height: 300px;
             object-fit: cover;
-            border-radius: 50%;
+            border-radius: 20px;
         }
 
         .article-text {
@@ -46,7 +46,9 @@
         <div class="shrink-container row">
             <div class="col-md-4 col-sm-12 col-lg-4">
                 <div class="image-container">
-                    <img src="{{ article.getPictureUrl() }}" alt="{{ article.title }}"/>
+                    <img src="{{ article.getPictureUrl() }}"
+                         alt="{{ article.title }}"
+                         onerror="this.src='./assets/images/blank-image-placeholder.jpg'"/>
                 </div>
             </div>
             <div class="col-md-8 col-sm-12 col-lg-8">

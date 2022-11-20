@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Definitions\NewsArticle;
 use App\Entity\News;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -51,28 +52,16 @@ class NewsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')->orderBy('c.created_at', 'DESC');
     }
 
-//    /**
-//     * @return News[] Returns an array of News objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function updateNewsArticle(News $article, NewsArticle $definition): void
+    {
+        $article
+            ->setLastUpdatedAt(date_create())
+            ->setTitle($definition->getTitle())
+            ->setSlug($definition->getSlug())
+            ->setDescription($definition->getDescription())
+            ->setPictureUrl($definition->getPictureUrl());
 
-//    public function findOneBySomeField($value): ?News
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $this->getEntityManager()->persist($article);
+        $this->getEntityManager()->flush();
+    }
 }
