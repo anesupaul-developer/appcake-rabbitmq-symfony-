@@ -1,6 +1,6 @@
 # NEWS PARSER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
 
- **Written by Anesu Paul Ngirande**
+ ** Written by Anesu Paul Ngirande : dripdatadev@gmail.com **
 
 REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
 
