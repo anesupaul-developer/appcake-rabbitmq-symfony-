@@ -4,6 +4,8 @@
 
 REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
 
+   - Install vendor packages by going into app folder and run the command composer install
+
 ## STEP 1: Setup DOCKER
 In your terminal run 
 	
