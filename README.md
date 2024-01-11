@@ -1,6 +1,7 @@
 # NEWS PARSER - SYMFONY 5.4 RABBITMQ NGINX MYSQL DOCKER PHP 7.4
+# Visuals check the images files in the root folder
 
- ** Written by Anesu Paul Ngirande : dripdatadev@gmail.com **
+ ** Written by Anesu Paul Ngirande : dripdatadev@gmail.com *
 
 REPLICATE THE FOLLOWING STEPS TO HAVE THE APP RUN ON YOUR MACHINE
 
